@@ -1,0 +1,107 @@
+openapi: 3.0.0
+servers: []
+info:
+  description: Simple API to receive reading events from medical devices.
+  version: "1.0.0"
+  title: Blood readings API
+  contact:
+    email: hmurtaza@my.bcit.ca
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: devices
+    description: Operations for medical devices
+paths:
+  /readings/blood-sugar:
+    post:
+      tags:
+        - devices
+      summary: Reports blood sugar level
+      operationId: app.report_blood_sugar
+      description: Adds blood sugar level reading to system (mg/dL)
+      responses:
+        '201':
+          description: Item created successfully
+        '400':
+          description: Invalid input
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BloodSugarReading'
+        description: Reading item to add
+        
+  /readings/blood-cholesterol:
+    post:
+      tags:
+        - devices
+      summary: Reports blood cholesterol level
+      operationId: app.report_blood_cholesterol
+      description: Adds blood cholesterol level reading to system (mg/dL)
+      responses:
+        '201':
+          description: Item created successfully
+        '400':
+          description: Invalid input
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BloodCholesterolReading'
+        description: Reading item to add
+        
+components:
+  schemas:
+    BloodSugarReading:
+      type: object
+      required:
+        - patient_number
+        - patient_name
+        - patient_age
+        - blood_sugar
+        - timestamp
+      properties:
+        patient_number:
+          type: integer
+          example: 4291
+        patient_name:
+          type: string
+          example: Haseeb Murtaza
+        patient_age:
+          type: integer
+          example: 20
+        blood_sugar:
+          type: integer
+          example: 130
+        timestamp:
+          type: string 
+          format: date-time 
+          example: '2022-01-11T09:12:33.001Z'
+
+    BloodCholesterolReading:
+      type: object
+      required:
+        - patient_number
+        - patient_name
+        - patient_age
+        - blood_cholesterol
+        - timestamp
+      properties:
+        patient_number:
+          type: integer
+          example: 2102
+        patient_name:
+          type: string
+          example: Haseeb Murtaza
+        patient_age:
+          type: integer
+          example: 20
+        blood_cholesterol:
+          type: integer
+          example: 50
+        timestamp:
+          type: string 
+          format: date-time 
+          example: '2022-01-11T09:12:33.001Z'
+          

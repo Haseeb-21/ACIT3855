@@ -1,0 +1,55 @@
+openapi: 3.0.0 
+info: 
+  description: This API provides event stats 
+  version: "1.0.0" 
+  title: Stats API 
+  contact: 
+    email: hmurtaza@my.bcit.ca 
+ 
+paths: 
+  /stats: 
+    get: 
+      summary: Gets the event stats 
+      operationId: app.get_stats 
+      description: Gets Blood Sugar and Blood Cholesterol processsed statistics 
+      responses: 
+        '200': 
+          description: Successfully returned a list of blood sugar events 
+          content: 
+            application/json: 
+              schema: 
+                type: object 
+                items: 
+                  $ref: '#/components/schemas/ReadingStats' 
+        '400': 
+          description: Invalid request 
+          content: 
+            application/json: 
+              schema: 
+                type: object 
+                properties: 
+                  message: 
+                    type: string 
+ 
+components: 
+  schemas: 
+    ReadingStats: 
+      required: 
+      - num_bs_readings 
+      - max_bs_reading  
+      - num_bc_readings 
+      - max_bc_reading 
+      properties: 
+        num_bs_readings: 
+          type: integer 
+          example: 500000 
+        max_bs_sys_reading: 
+          type: integer 
+          example: 200 
+        num_bc_readings: 
+          type: integer 
+          example: 500000 
+        max_bc_reading: 
+          type: integer 
+          example: 250 
+      type: object

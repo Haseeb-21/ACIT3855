@@ -1,0 +1,9 @@
+version: 1 
+eventstore1: 
+  url: http://localhost:8080/readings/blood-cholesterol
+eventstore2: 
+  url: http://localhost:8080/readings/blood-sugar
+events: 
+  hostname: "aceit3855.westus.cloudapp.azure.com"
+  port: 9092 
+  topic: events

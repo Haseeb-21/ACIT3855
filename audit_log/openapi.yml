@@ -1,0 +1,136 @@
+openapi: 3.0.0 
+info: 
+  description: This API provides audit info 
+  version: "1.0.0" 
+  title: Audit API 
+  contact: 
+    email: hmurtaza@my.bcit.ca
+ 
+paths: 
+  /readings/blood-sugar: 
+    get: 
+      summary: gets a blood sugar reading from history 
+      operationId: app.get_blood_sugar_reading 
+      description: Gets blood sugar readings from the event store 
+      parameters: 
+        - name: index 
+          in: query 
+          description: Gets the blood sugar at the index in the event store 
+          schema: 
+            type: integer 
+            example: 100 
+      responses: 
+        '200': 
+          description: Successfully returned a blood sugar event 
+          content: 
+            application/json: 
+              schema: 
+                type: object 
+                items: 
+                  $ref: '#/components/schemas/BloodSugarReading' 
+        '400': 
+          description: Invalid request 
+          content: 
+            application/json: 
+              schema: 
+                type: object 
+                properties: 
+                  message: 
+                    type: string 
+        '404': 
+          description: Not Found 
+          content: 
+            application/json: 
+              schema: 
+                type: object 
+                properties: 
+                  message: 
+                    type: string 
+ 
+  /readings/blood-cholesterol: 
+    get: 
+      summary: gets a blood cholesterol reading from history 
+      operationId: app.get_blood_cholesterol_reading 
+      description: Gets blood cholesterol reading from the event store 
+      parameters: 
+        - name: index 
+          in: query 
+          description: Gets the blood cholesterol at the index in the event store 
+          schema: 
+            type: integer 
+            example: 100 
+      responses: 
+        '200': 
+          description: Successfully returned a blood cholesterol event 
+          content: 
+            application/json: 
+              schema: 
+                type: object 
+                items: 
+                  $ref: '#/components/schemas/BloodCholesterolReading' 
+        '400': 
+          description: Invalid request 
+          content: 
+            application/json: 
+              schema: 
+                type: object 
+                properties: 
+                  message: 
+                    type: string 
+        '404': 
+          description: Not Found 
+ 
+components: 
+  schemas: 
+    BloodSugarReading: 
+      required: 
+        - patient_number
+        - patient_name
+        - patient_age
+        - blood_sugar
+        - timestamp
+      properties:
+        patient_number:
+          type: integer
+          example: 4291
+        patient_name:
+          type: string
+          example: Haseeb Murtaza
+        patient_age:
+          type: integer
+          example: 20
+        blood_sugar:
+          type: integer
+          example: 130
+        timestamp:
+          type: string 
+          format: date-time 
+          example: '2022-01-11T09:12:33.001Z'
+      type: object 
+ 
+    BloodCholesterolReading: 
+      required: 
+        - patient_number
+        - patient_name
+        - patient_age
+        - blood_cholesterol
+        - timestamp
+      properties: 
+        patient_number:
+          type: integer
+          example: 4291
+        patient_name:
+          type: string
+          example: Haseeb Murtaza
+        patient_age:
+          type: integer
+          example: 20
+        blood_cholesterol:
+          type: integer
+          example: 130
+        timestamp:
+          type: string 
+          format: date-time 
+          example: '2022-01-11T09:12:33.001Z'
+      type: object 
+ 
