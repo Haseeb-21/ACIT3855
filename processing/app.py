@@ -113,7 +113,7 @@ def populate_stats():
     
 
 def init_scheduler(): 
-    sched = BackgroundScheduler(daemon=True) 
+    sched = BackgroundScheduler(timezone="America/Vancouver", daemon=True) 
     sched.add_job(populate_stats,    
                   'interval', 
                   seconds=app_config['scheduler']['period_sec']) 
