@@ -43,7 +43,7 @@ components:
         num_bs_readings: 
           type: integer 
           example: 500000 
-        max_bs_sys_reading: 
+        max_bs_reading: 
           type: integer 
           example: 200 
         num_bc_readings: 
