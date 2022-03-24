@@ -35,18 +35,18 @@ export default function AppStats() {
                 <table className={"StatsTable"}>
 					<tbody>
 						<tr>
-							<th>Blood Pressure</th>
-							<th>Heart Rate</th>
+							<th>Blood Sugar</th>
+							<th>Blood Cholesterol</th>
 						</tr>
 						<tr>
 							<td># BS: {stats['num_bs_readings']}</td>
 							<td># BC: {stats['num_bc_readings']}</td>
 						</tr>
 						<tr>
-							<td colspan="2">Max BP Systolic: {stats['max_bs_reading']}</td>
+							<td colspan="2">Max BS: {stats['max_bs_reading']}</td>
 						</tr>
 						<tr>
-							<td colspan="2">Max BR Diastolic: {stats['max_bc_reading']}</td>
+							<td colspan="2">Max BC: {stats['max_bc_reading']}</td>
 						</tr>
 					</tbody>
                 </table>
