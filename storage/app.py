@@ -67,8 +67,8 @@ def get_blood_sugar_readings(start_timestamp, end_timestamp):
  
     session = DB_SESSION() 
     
-    start_timestamp_datetime = datetime.datetime.strptime(start_timestamp, "%Y-%m-%dT%H:%M:%S")
-    end_timestamp_datetime = datetime.datetime.strptime(end_timestamp, "%Y-%m-%dT%H:%M:%S")
+    start_timestamp_datetime = datetime.datetime.strptime(start_timestamp, "%Y-%m-%dT%H:%M:%SZ")
+    end_timestamp_datetime = datetime.datetime.strptime(end_timestamp, "%Y-%m-%dT%H:%M:%SZ")
  
     readings = session.query(BloodSugar).filter(and_(BloodSugar.date_created >= start_timestamp_datetime, BloodSugar.date_created < end_timestamp_datetime)) 
  
