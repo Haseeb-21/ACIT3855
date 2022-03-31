@@ -104,15 +104,15 @@ def report_blood_cholesterol(body):
 
     return NoContent, 201
 
-def get_blood_cholesterol_readings(timestamp): 
+def get_blood_cholesterol_readings(start_timestamp, end_timestamp): 
     """ Gets new blood cholesterol readings after the timestamp """ 
  
     session = DB_SESSION() 
  
-    timestamp_datetime = datetime.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%SZ") 
+    start_timestamp_datetime = datetime.datetime.strptime(start_timestamp, "%Y-%m-%dT%H:%M:%S")
+    end_timestamp_datetime = datetime.datetime.strptime(end_timestamp, "%Y-%m-%dT%H:%M:%S")
     
-    readings = session.query(BloodCholesterol).filter(BloodCholesterol.date_created >= timestamp_datetime) 
- 
+    readings = session.query(BloodCholesterol).filter(and_(BloodCholesterol.date_created >= start_timestamp_datetime, BloodCholesterol.date_created < end_timestamp_datetime)) 
     results_list = [] 
  
     for reading in readings: 
@@ -121,7 +121,7 @@ def get_blood_cholesterol_readings(timestamp):
     session.close() 
      
     logger.info("Query for Blood Cholesterol readings after %s returns %d results" %  
-                (timestamp, len(results_list))) 
+                (start_timestamp, len(results_list))) 
  
     return results_list, 200
 
