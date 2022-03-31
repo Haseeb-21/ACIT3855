@@ -38,7 +38,14 @@ paths:
       operationId: app.get_blood_sugar_readings 
       description: Gets blood sugar readings added after a timestamp 
       parameters: 
-        - name: timestamp 
+        - name: start_timestamp 
+          in: query 
+          description: Limits the number of items on a page 
+          schema: 
+            type: string 
+            format: date-time 
+            example: 2016-08-29T09:12:33.001Z 
+        - name: end_timestamp 
           in: query 
           description: Limits the number of items on a page 
           schema: 
@@ -89,7 +96,14 @@ paths:
       operationId: app.get_blood_cholesterol_readings 
       description: Gets blood cholesterol readings added after a timestamp 
       parameters: 
-        - name: timestamp 
+        - name: start_timestamp 
+          in: query 
+          description: Limits the number of items on a page 
+          schema: 
+            type: string 
+            format: date-time 
+            example: 2016-08-29T09:12:33.001Z 
+        - name: end_timestamp 
           in: query 
           description: Limits the number of items on a page 
           schema: 
@@ -123,7 +137,8 @@ components:
         - patient_name
         - patient_age
         - blood_sugar
-        - timestamp
+        - start_timestamp
+        - end_timestamp
       properties:
         patient_number:
           type: integer
@@ -137,7 +152,11 @@ components:
         blood_sugar:
           type: integer
           example: 130
-        timestamp:
+        start_timestamp:
+          type: string 
+          format: date-time 
+          example: '2022-01-11T09:12:33.001Z'
+        end_timestamp:
           type: string 
           format: date-time 
           example: '2022-01-11T09:12:33.001Z'
@@ -149,7 +168,8 @@ components:
         - patient_name
         - patient_age
         - blood_cholesterol
-        - timestamp
+        - start_timestamp
+        - end_timestamp
       properties:
         patient_number:
           type: integer
@@ -163,7 +183,11 @@ components:
         blood_cholesterol:
           type: integer
           example: 50
-        timestamp:
+        start_timestamp:
+          type: string 
+          format: date-time 
+          example: '2022-01-11T09:12:33.001Z'
+        end_timestamp:
           type: string 
           format: date-time 
           example: '2022-01-11T09:12:33.001Z'

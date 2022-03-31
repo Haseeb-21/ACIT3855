@@ -19,6 +19,7 @@ import json
 from pykafka import KafkaClient
 from pykafka.common import OffsetType
 from threading import Thread  
+from sqlalchemy import and_
 
 with open('app_conf.yml', 'r') as f: 
     app_config = yaml.safe_load(f.read())
@@ -61,15 +62,15 @@ def report_blood_sugar(body):
 
     return NoContent, 201
 
-def get_blood_sugar_readings(timestamp): 
+def get_blood_sugar_readings(start_timestamp, end_timestamp): 
     """ Gets new blood sugar readings after the timestamp """ 
  
     session = DB_SESSION() 
+    
+    start_timestamp_datetime = datetime.datetime.strptime(start_timestamp, "%Y-%m-%dT%H:%M:%S")
+    end_timestamp_datetime = datetime.datetime.strptime(end_timestamp, "%Y-%m-%dT%H:%M:%S")
  
-    timestamp_datetime = datetime.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%SZ") 
-   
- 
-    readings = session.query(BloodSugar).filter(BloodSugar.date_created >= timestamp_datetime) 
+    readings = session.query(BloodSugar).filter(and_(BloodSugar.date_created >= start_timestamp_datetime, BloodSugar.date_created < end_timestamp_datetime)) 
  
     results_list = [] 
  
@@ -79,7 +80,7 @@ def get_blood_sugar_readings(timestamp):
     session.close() 
      
     logger.info("Query for Blood Sugar readings after %s returns %d results" %  
-                (timestamp, len(results_list))) 
+                (start_timestamp, len(results_list))) 
  
     return results_list, 200
 
