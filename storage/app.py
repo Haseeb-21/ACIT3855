@@ -129,8 +129,20 @@ def process_messages():
     """ Process event messages """ 
     hostname = "%s:%d" % (app_config["events"]["hostname"],   
                           app_config["events"]["port"]) 
-    client = KafkaClient(hosts=hostname) 
-    topic = client.topics[str.encode(app_config["events"]["topic"])] 
+
+    max_tries = 5
+    i = 0 
+
+    while i < max_tries:
+        try:
+            client = KafkaClient(hosts=hostname) 
+            topic = client.topics[str.encode(app_config["events"]["topic"])] 
+
+            logger.info("Attempting to connect to kafka")
+        except Exception as e:
+            logger.info("Failed to connect to kafka")
+            time.sleep(3)
+            i += 1
      
     # Create a consume on a consumer group, that only reads new messages  
     # (uncommitted messages) when the service re-starts (i.e., it doesn't  
