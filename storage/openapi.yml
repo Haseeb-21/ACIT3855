@@ -38,14 +38,7 @@ paths:
       operationId: app.get_blood_sugar_readings 
       description: Gets blood sugar readings added after a timestamp 
       parameters: 
-        - name: start_timestamp 
-          in: query 
-          description: Limits the number of items on a page 
-          schema: 
-            type: string 
-            format: date-time 
-            example: 2016-08-29T09:12:33.001Z 
-        - name: end_timestamp 
+        - name: timestamp 
           in: query 
           description: Limits the number of items on a page 
           schema: 
@@ -96,14 +89,7 @@ paths:
       operationId: app.get_blood_cholesterol_readings 
       description: Gets blood cholesterol readings added after a timestamp 
       parameters: 
-        - name: start_timestamp 
-          in: query 
-          description: Limits the number of items on a page 
-          schema: 
-            type: string 
-            format: date-time 
-            example: 2016-08-29T09:12:33.001Z 
-        - name: end_timestamp 
+        - name: timestamp 
           in: query 
           description: Limits the number of items on a page 
           schema: 
@@ -128,6 +114,16 @@ paths:
                 properties: 
                   message: 
                     type: string 
+  /health:
+    get:
+      summary: gets health
+      operationId: app.health
+      description: Gets health from server
+      responses:
+        '200':
+          description: 200 request
+        '404':
+          description: Not Found
 components:
   schemas:
     BloodSugarReading:
@@ -137,8 +133,7 @@ components:
         - patient_name
         - patient_age
         - blood_sugar
-        - start_timestamp
-        - end_timestamp
+        - timestamp
       properties:
         patient_number:
           type: integer
@@ -152,11 +147,7 @@ components:
         blood_sugar:
           type: integer
           example: 130
-        start_timestamp:
-          type: string 
-          format: date-time 
-          example: '2022-01-11T09:12:33.001Z'
-        end_timestamp:
+        timestamp:
           type: string 
           format: date-time 
           example: '2022-01-11T09:12:33.001Z'
@@ -168,8 +159,7 @@ components:
         - patient_name
         - patient_age
         - blood_cholesterol
-        - start_timestamp
-        - end_timestamp
+        - timestamp
       properties:
         patient_number:
           type: integer
@@ -183,11 +173,7 @@ components:
         blood_cholesterol:
           type: integer
           example: 50
-        start_timestamp:
-          type: string 
-          format: date-time 
-          example: '2022-01-11T09:12:33.001Z'
-        end_timestamp:
+        timestamp:
           type: string 
           format: date-time 
           example: '2022-01-11T09:12:33.001Z'

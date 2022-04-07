@@ -50,6 +50,16 @@ paths:
             schema:
               $ref: '#/components/schemas/BloodCholesterolReading'
         description: Reading item to add
+  /health:
+    get:
+      summary: gets health
+      operationId: app.health
+      description: Gets health from server
+      responses:
+        '200':
+          description: 200 request
+        '404':
+          description: Not Found
         
 components:
   schemas:

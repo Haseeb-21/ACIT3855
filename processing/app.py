@@ -60,8 +60,7 @@ def populate_stats():
     session.close()
 
     new_stats = latest_stats
-    current_timestamp = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
-    response = requests.get('http://localhost:8090/readings/blood-sugar' + "?start_timestamp=" + last_updated + "&end_timestamp=" + current_timestamp)
+    response = requests.get('http://localhost:8090/readings/blood-sugar', params={"timestamp": latest_stats["last_updated"]})
 
     if response and response.status_code == 200:
         if len(response.json()) != 0:
@@ -78,7 +77,7 @@ def populate_stats():
         logging.error(f'Blood sugar response failed with {response.status_code}')
 
 
-    response = requests.get('http://localhost:8090/readings/blood-cholesterol' + "?start_timestamp=" + last_updated + "&end_timestamp=" + current_timestamp)
+    response = requests.get('http://localhost:8090/readings/blood-cholesterol', params={"timestamp": latest_stats["last_updated"]})
 
     if response and response.status_code == 200:
         if len(response.json()) != 0:

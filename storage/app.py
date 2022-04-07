@@ -19,7 +19,6 @@ import json
 from pykafka import KafkaClient
 from pykafka.common import OffsetType
 from threading import Thread  
-from sqlalchemy import and_
 
 with open('app_conf.yml', 'r') as f: 
     app_config = yaml.safe_load(f.read())
@@ -62,15 +61,15 @@ def report_blood_sugar(body):
 
     return NoContent, 201
 
-def get_blood_sugar_readings(start_timestamp, end_timestamp): 
+def get_blood_sugar_readings(timestamp): 
     """ Gets new blood sugar readings after the timestamp """ 
  
     session = DB_SESSION() 
-    
-    start_timestamp_datetime = datetime.datetime.strptime(start_timestamp, "%Y-%m-%dT%H:%M:%SZ")
-    end_timestamp_datetime = datetime.datetime.strptime(end_timestamp, "%Y-%m-%dT%H:%M:%SZ")
  
-    readings = session.query(BloodSugar).filter(and_(BloodSugar.date_created >= start_timestamp_datetime, BloodSugar.date_created < end_timestamp_datetime)) 
+    timestamp_datetime = datetime.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%SZ") 
+   
+ 
+    readings = session.query(BloodSugar).filter(BloodSugar.date_created >= timestamp_datetime) 
  
     results_list = [] 
  
@@ -80,7 +79,7 @@ def get_blood_sugar_readings(start_timestamp, end_timestamp):
     session.close() 
      
     logger.info("Query for Blood Sugar readings after %s returns %d results" %  
-                (start_timestamp, len(results_list))) 
+                (timestamp, len(results_list))) 
  
     return results_list, 200
 
@@ -104,15 +103,15 @@ def report_blood_cholesterol(body):
 
     return NoContent, 201
 
-def get_blood_cholesterol_readings(start_timestamp, end_timestamp): 
+def get_blood_cholesterol_readings(timestamp): 
     """ Gets new blood cholesterol readings after the timestamp """ 
  
     session = DB_SESSION() 
  
-    start_timestamp_datetime = datetime.datetime.strptime(start_timestamp, "%Y-%m-%dT%H:%M:%SZ")
-    end_timestamp_datetime = datetime.datetime.strptime(end_timestamp, "%Y-%m-%dT%H:%M:%SZ")
+    timestamp_datetime = datetime.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%SZ") 
     
-    readings = session.query(BloodCholesterol).filter(and_(BloodCholesterol.date_created >= start_timestamp_datetime, BloodCholesterol.date_created < end_timestamp_datetime)) 
+    readings = session.query(BloodCholesterol).filter(BloodCholesterol.date_created >= timestamp_datetime) 
+ 
     results_list = [] 
  
     for reading in readings: 
@@ -121,7 +120,7 @@ def get_blood_cholesterol_readings(start_timestamp, end_timestamp):
     session.close() 
      
     logger.info("Query for Blood Cholesterol readings after %s returns %d results" %  
-                (start_timestamp, len(results_list))) 
+                (timestamp, len(results_list))) 
  
     return results_list, 200
 
@@ -129,20 +128,8 @@ def process_messages():
     """ Process event messages """ 
     hostname = "%s:%d" % (app_config["events"]["hostname"],   
                           app_config["events"]["port"]) 
-
-    max_tries = 5
-    i = 0 
-
-    while i < max_tries:
-        try:
-            client = KafkaClient(hosts=hostname) 
-            topic = client.topics[str.encode(app_config["events"]["topic"])] 
-
-            logger.info("Attempting to connect to kafka")
-        except Exception as e:
-            logger.info("Failed to connect to kafka")
-            time.sleep(3)
-            i += 1
+    client = KafkaClient(hosts=hostname) 
+    topic = client.topics[str.encode(app_config["events"]["topic"])] 
      
     # Create a consume on a consumer group, that only reads new messages  
     # (uncommitted messages) when the service re-starts (i.e., it doesn't  
