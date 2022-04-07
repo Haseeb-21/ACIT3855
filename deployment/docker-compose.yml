@@ -74,8 +74,11 @@ services:
     environment:
       - TARGET_ENV=test
     volumes:
+      my-db:
+      processing-db:
       - /home/azureuser/config/processing:/config
       - /home/azureuser/logs:/logs
+      - processing-db:/data
     depends_on: 
       - "storage" 
   audit_log: 

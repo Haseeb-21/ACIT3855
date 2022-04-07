@@ -23,6 +23,9 @@ else:
     app_conf_file = "app_conf.yml"
     log_conf_file = "log_conf.yml"
 
+with open(app_conf_file, 'a+') as f:
+    app_config = yaml.safe_load(f.read())
+
 with open(app_conf_file, 'r') as f:
     app_config = yaml.safe_load(f.read())
 
