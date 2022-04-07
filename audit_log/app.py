@@ -100,6 +100,11 @@ def get_blood_cholesterol_reading(index):
     print()
     return { "message": "Not Found"}, 404
 
+def health():
+    """ returns health of audit service """
+    msg = f"Running"
+    code = 200
+    return msg, code
 
 app = connexion.FlaskApp(__name__, specification_dir='') 
 CORS(app.app) 

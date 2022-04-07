@@ -74,6 +74,12 @@ def report_blood_cholesterol(body):
 
     return 201 #response.status_code
 
+def health():
+    """ Returns health of receiver service """
+    msg = f"Running"
+    code = 200
+    return msg, code
+
 app = connexion.FlaskApp(__name__, specification_dir='') 
 app.add_api("openapi.yml", strict_validation=True, validate_responses=True) 
 

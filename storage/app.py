@@ -124,6 +124,12 @@ def get_blood_cholesterol_readings(timestamp):
  
     return results_list, 200
 
+def health():
+    """ Returns health of storage service """
+    msg = f"Running"
+    code = 200
+    return msg, code
+
 def process_messages(): 
     """ Process event messages """ 
     hostname = "%s:%d" % (app_config["events"]["hostname"],   

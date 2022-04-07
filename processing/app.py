@@ -112,6 +112,11 @@ def populate_stats():
     logging.debug(f'Updated stat: {new_stats}')
     logging.info(f'End Periodic Processing')
     
+def health():
+    """ returns health of processing service """
+    msg = f"Running"
+    code = 200
+    return msg, code
 
 def init_scheduler(): 
     sched = BackgroundScheduler(timezone="America/Vancouver", daemon=True) 
