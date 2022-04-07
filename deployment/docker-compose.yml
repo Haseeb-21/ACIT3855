@@ -70,7 +70,7 @@ services:
     depends_on: 
       - "kafka" 
   dashboard:
-    build: ../dashboard
+    build: ../dashboard-ui
     ports:
       - "3000:3000"
     depends_on:
