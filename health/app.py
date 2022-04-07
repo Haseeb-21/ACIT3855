@@ -108,9 +108,9 @@ def get_health():
 
     for i in range(len(status_codes)):
         if status_codes[i] < 400:
-            status_codes[i] = 'RUNNING'
+            status_codes[i] = 'Running'
         else:
-            status_codes[i] = 'DOWN'
+            status_codes[i] = 'Down'
 
     payload = {
         "receiver": status_codes[0],

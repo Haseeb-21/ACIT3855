@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import '../App.css';
 
-console.log("hi")
-
 export default function AppStats() {
     const [isLoaded, setIsLoaded] = useState(false);
     const [stats, setStats] = useState({});
@@ -27,8 +25,6 @@ export default function AppStats() {
     }, [getStats]);
 
     if (error){
-        console.log(error)
-        console.log("hi")
         return (<div className={"error"}>Error found when fetching from API</div>)
     } else if (isLoaded === false){
         return(<div>Loading...</div>)
