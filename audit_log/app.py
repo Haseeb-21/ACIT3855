@@ -39,14 +39,6 @@ logger.info("Log Conf File: %s" % log_conf_file)
 MAX_EVENTS = 10
 EVENT_FILE = "events.json"
 
-with open(app_conf_file, 'r') as f: 
-    app_config = yaml.safe_load(f.read())
-
-with open(log_conf_file, 'r') as f: 
-    log_config = yaml.safe_load(f.read()) 
-    logging.config.dictConfig(log_config)
-
-logger = logging.getLogger('basicLogger')
 
 def get_blood_sugar_reading(index): 
     """ Get blood sugar reading in history """ 
