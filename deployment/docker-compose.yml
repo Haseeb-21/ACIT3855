@@ -70,14 +70,14 @@ services:
     depends_on: 
       - "kafka" 
   dashboard:
-    image: dashboard
+    image: ../dashboard
     ports:
       - "3000:3000"
     depends_on:
       - "processing"
       - "audit_log"
   health:
-    image: health
+    image: ../health
     ports:
       - "8120:8120"
     depends_on:
