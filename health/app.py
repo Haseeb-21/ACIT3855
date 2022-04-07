@@ -70,20 +70,39 @@ def json_init():
 # Get data from database and return processed stats
 def get_health():
     '''Returns stats data'''
-    receiver = requests.get("http://aceit3855.westus.cloudapp.azure.com:8080/health", timeout=4)
-    logger.info(f'receiver response is: {receiver.status_code}')
-    storage = requests.get("http://aceit3855.westus.cloudapp.azure.com:8090/health", timeout=4)
-    logger.info(f'storage response is: {storage.status_code}')
-    processing = requests.get("http://aceit3855.westus.cloudapp.azure.com:8100/health", timeout=4)
-    logger.info(f'processing response is: {processing.status_code}')
-    audit= requests.get("http://aceit3855.westus.cloudapp.azure.com:8110/health", timeout=4)
-    logger.info(f'audit response is: {audit.status_code}')
-    now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    try:
+        receiver = requests.get("http://aceit3855.westus.cloudapp.azure.com:8080/health", timeout=4)
+        logger.info(f'receiver response is: {receiver.status_code}')
+        r = receiver.status_code
+    except:
+        logger.info(f'service is unreachable')
+        r = 400
+    
+    try:
+        storage = requests.get("http://aceit3855.westus.cloudapp.azure.com:8090/health", timeout=4)
+        logger.info(f'storage response is: {storage.status_code}')
+        s = storage.status_code
+    except:
+        logger.info(f'service is unreachable')
+        s = 400
 
-    r = receiver.status_code
-    s = storage.status_code
-    p = processing.status_code
-    a = audit.status_code
+    try:
+        processing = requests.get("http://aceit3855.westus.cloudapp.azure.com:8100/health", timeout=4)
+        logger.info(f'processing response is: {processing.status_code}')
+        p = processing.status_code
+    except:
+        logger.info(f'service is unreachable')
+        p = 400
+
+    try:
+        audit= requests.get("http://aceit3855.westus.cloudapp.azure.com:8110/health", timeout=4)
+        logger.info(f'audit response is: {audit.status_code}')
+        a = audit.status_code
+    except:
+        logger.info(f'service is unreachable')
+        a = 400
+
+    now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
     status_codes = [r, s, p, a]
 
