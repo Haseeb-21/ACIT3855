@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import '../App.css';
 
+console.log("hi")
+
 export default function AppStats() {
     const [isLoaded, setIsLoaded] = useState(false);
     const [stats, setStats] = useState({});
